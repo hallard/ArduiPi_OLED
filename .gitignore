@@ -1,0 +1,13 @@
+# Object files
+*.o
+
+# Libraries
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.so
+*.so.*
+
+
+# Executables
+ssd1306_demo
