@@ -12,7 +12,7 @@ This has been ported to work with the ArduiPi Project but it can work on almost 
 Installation
 ============
 
-Everything is documented on this dedicated post my [blog][3]
+Everything is documented on this dedicated [post][2] my [blog][3]
 
 
 [1]: https://github.com/hallard/ArduiPi_SSD1306
