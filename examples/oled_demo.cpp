@@ -243,7 +243,11 @@ void testscrolltext(void) {
   display.setTextColor(WHITE);
   display.setCursor(10,0);
   display.clearDisplay();
-  display.print("scroll");
+  
+  if (opts.oled == OLED_SH1106_I2C_128x64)
+    display.print("No scroll\non SH1106");
+  else
+    display.print("scroll");
   display.display();
  
   display.startscrollright(0x00, 0x0F);

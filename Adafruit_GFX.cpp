@@ -23,7 +23,7 @@
 
  ******************************************************************/
 
-#include "./ArduiPi_SSD1306.h"
+#include "./ArduiPi_OLED_lib.h"
 #include "./Adafruit_GFX.h"
 #include "./glcdfont.c"
 
