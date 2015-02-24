@@ -1,20 +1,21 @@
 Raspberry PI OLED Library Driver
-==================================
+================================
 
-This is the port of some of the most used OLED drivers such as the Adafruit, Seeedstudio, Tindie, ... to the Raspberry Pi
+This is the port of some of the most used OLED drivers such as the Adafruit, Seeedstudio, Tindie, Generic... to
+the Raspberry Pi. It can drive OLED with chipset such as SSD1306, SH1106, SSD1327 and SSD1308
 
-This has been ported to work with the ArduiPi Project. ArduiPi project is a shield for Raspberry Pi that brings Arduino low level extented I/O to Raspberry Pi.
+This library replace the previous one named [ArduiPi_SSD1306][1]
 
-This project is currently in progress and you can find all information about this shield and project here http://hallard.me/arduipi
+This has been ported to work with the ArduiPi Project but it can work on almost any Raspberry PI.
+
 
 Installation
 ============
 
-Everything is now documented on my blog https://hallard.me
+Everything is documented on this dedicated post my [blog][3]
 
 
-
-
-
-
+[1]: https://github.com/hallard/ArduiPi_SSD1306
+[2]: http://hallard.me/adafruit-oled-display-driver-for-pi/
+[3]: https://hallard.me
 
