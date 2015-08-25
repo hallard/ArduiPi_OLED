@@ -1,3 +1,4 @@
+
 #*********************************************************************
 # This is the makefile for the ArduiPi OLED library driver
 #
@@ -10,7 +11,24 @@
 # 07/26/2013	Charles-Henri Hallard
 #							modified name for generic library using different OLED type
 #
+# 08/26/2015	Lorenzo Delana (lorenzo.delana@gmail.com)
+#							added bananapi specific CCFLAGS and conditional macro BANANPI
+#
 # *********************************************************************
+
+# Makefile itself dir
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
+# hw platform as from autogen.sh choose
+HWPLAT:=$(shell cat $(ROOT_DIR)/hwplatform)
+
+# sets CCFLAGS hw platform dependant
+ifeq ($(HWPLAT),BananaPI)
+	CCFLAGS=-Wall -Ofast -mfpu=vfpv4 -mfloat-abi=hard -march=armv7 -mtune=cortex-a7 -DBANANAPI
+else # fallback to raspberry
+	# The recommended compiler flags for the Raspberry Pi
+	CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
+endif
 
 # Where you want it installed when you do 'make install'
 PREFIX=/usr/local
@@ -23,12 +41,13 @@ LIB=libArduiPi_OLED
 # shared library name
 LIBNAME=$(LIB).so.1.0
 
-# The recommended compiler flags for the Raspberry Pi
-CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
-
 # make all
 # reinstall the library after each recompilation
 all: ArduiPi_OLED install
+
+# setup cflags
+cflagsset:
+	echo $(CCFLAGS)
 
 # Make the library
 ArduiPi_OLED: ArduiPi_OLED.o Adafruit_GFX.o bcm2835.o 

@@ -16,6 +16,9 @@
 //              Added function to determine PI revision board
 //							Added function to set SPI speed (instead of divider for easier look in code)
 // 06/29/2013   Incorporated latest version of bcm2825.h done by Mike McCauley
+// 
+// 08/26/2015	Lorenzo Delana (lorenzo.delana@gmail.com)
+//		Use of i2c-2 if BANANAPI macro enabled
 
 
 #include <stdio.h>
@@ -813,7 +816,11 @@ int bcm2835_i2c_begin(void)
 {
 	int fd ;
 
+#if BANANAPI
+	if ((fd = open ("/dev/i2c-2", O_RDWR)) < 0)
+#else
 	if ((fd = open (bcm2835_get_pi_version() == 1 ? "/dev/i2c-0":"/dev/i2c-1" , O_RDWR)) < 0)
+#endif
 		return fd;
 		
 	// Set i2c descriptor
