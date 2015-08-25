@@ -7,13 +7,26 @@
 #							the command line (no more #define on compilation needed)
 #							ArduiPi project documentation http://hallard.me/arduipi
 #
+# 08/26/2015    Lorenzo Delana (lorenzo.delana@gmail.com)
+#                                                       added bananapi specific CCFLAGS and conditional macro BANANPI
+#
 # *********************************************************************
 
-prefix := /usr/local
+# Makefile itself dir
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-# The recommended compiler flags for the Raspberry Pi
-CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
-#CCFLAGS=
+# hw platform as from autogen.sh choose
+HWPLAT:=$(shell cat $(ROOT_DIR)/../hwplatform)
+
+# sets CCFLAGS hw platform dependant
+ifeq ($(HWPLAT),BananaPI)
+        CCFLAGS=-Wall -Ofast -mfpu=vfpv4 -mfloat-abi=hard -march=armv7 -mtune=cortex-a7 -DBANANAPI
+else # fallback to raspberry
+        # The recommended compiler flags for the Raspberry Pi
+        CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s
+endif
+
+prefix := /usr/local
 
 # define all programs
 PROGRAMS = oled_demo teleinfo-oled
