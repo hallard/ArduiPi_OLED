@@ -9,11 +9,11 @@ apt-get install mono-complete
 ## Build
 
 ```
-./mono/build.sh
+sh ./mono/build.sh
 ```
 
 ## Run test
 
 ```
-./mono/run_test.sh
+sh ./mono/run_test.sh
 ```
