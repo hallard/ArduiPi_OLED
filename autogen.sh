@@ -8,7 +8,8 @@
 #           - set i2c-2 device port
 #           - adjust CCFLAGS for the library and examples
 
-BASEDIR=$(dirname $0)
+BD=`dirname $0`
+BASEDIR=`realpath $BD`
 
 echo "Specify your platform:"
 echo "  1. RaspberryPI"
