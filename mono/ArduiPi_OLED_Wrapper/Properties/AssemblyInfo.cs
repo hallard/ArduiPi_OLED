@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ArduiPi_OLED_Wrapper")]
 [assembly: AssemblyDescription("Wrapper for ArduiPi OLED library ( https://github.com/hallard/ArduiPi_OLED )")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Lorenzo Delana")]
 [assembly: AssemblyProduct("ArduiPi_OLED_Wrapper")]
 [assembly: AssemblyCopyright("Copyright © Lorenzo Delana 2015")]
 [assembly: AssemblyTrademark("")]
