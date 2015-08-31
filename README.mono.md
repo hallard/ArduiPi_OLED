@@ -3,7 +3,7 @@
 ## Prerequisites
 
 ```
-apt-get install mono-complete
+apt-get install mono-complete nuget
 ```
 
 ## Build

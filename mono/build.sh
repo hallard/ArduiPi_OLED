@@ -11,11 +11,14 @@ echo "---> Build native library"
 cd $BASEDIR/..
 make
 
+cd $BASEDIR
+
+echo
+echo "---> Restoring nuget packages"
+nuget restore
+
 echo
 echo "---> Build managed library and test suite"
-
-cd $BASEDIR
-echo "from `pwd`"
 xbuild /nologo /verbosity:quiet /toolsversion:4.0 ArduiPi_OLED_Wrapper.sln
 
 echo
