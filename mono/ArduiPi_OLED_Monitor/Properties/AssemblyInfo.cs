@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ArduiPi_OLED_Wrapper")]
-[assembly: AssemblyDescription("Wrapper for ArduiPi OLED library ( https://github.com/hallard/ArduiPi_OLED )")]
+[assembly: AssemblyTitle("BananaPiOLEDMonitor")]
+[assembly: AssemblyDescription("Display system informations on OLED display for BananaPi.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Lorenzo Delana")]
-[assembly: AssemblyProduct("ArduiPi_OLED_Wrapper")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("BananaPiOLEDMonitor")]
 [assembly: AssemblyCopyright("Copyright © Lorenzo Delana 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("decc6ec1-196f-4731-bd70-dc00e77bd8f6")]
+[assembly: Guid("38c84905-3080-485e-b85e-d843e38e0493")]
 
 // Version information for an assembly consists of the following four values:
 //

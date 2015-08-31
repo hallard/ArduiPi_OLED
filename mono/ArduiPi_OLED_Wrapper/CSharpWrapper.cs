@@ -35,11 +35,35 @@ namespace ArduiPi_OLED
         [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_Init", SetLastError = true)]
         public static extern int Wrapper_Init(int oledType);
 
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_Close", SetLastError = true)]
+        public static extern int Wrapper_Close();
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_DrawPixel", SetLastError = true)]
+        public static extern int Wrapper_DrawPixel(short x, short y, ushort color);
+
         [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_Display", SetLastError = true)]
         public static extern void Wrapper_Display();
 
         [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_ClearDisplay", SetLastError = true)]
         public static extern void Wrapper_ClearDisplay();
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_StartScrollLeft", SetLastError = true)]
+        public static extern void Wrapper_StartScrollLeft(byte start, byte stop);
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_StartScrollRight", SetLastError = true)]
+        public static extern void Wrapper_StartScrollRight(byte start, byte stop);
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_StartScrollDiagLeft", SetLastError = true)]
+        public static extern void Wrapper_StartScrollDiagLeft(byte start, byte stop);
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_StartScrollDiagRight", SetLastError = true)]
+        public static extern void Wrapper_StartScrollDiagRight(byte start, byte stop);
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_SetHorizontalScrollProperties", SetLastError = true)]
+        public static extern void Wrapper_SetHorizontalScrollProperties(bool direction, byte startRow, byte endRow, byte startColumn, byte endColumn, byte scrollSpeed);
+
+        [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_StopScroll", SetLastError = true)]
+        public static extern void Wrapper_StopScroll();
 
         [DllImport("libArduiPi_OLED.so", EntryPoint = "Wrapper_Print", SetLastError = true)]
         public static extern void Wrapper_Print(string msg);
@@ -123,12 +147,21 @@ namespace ArduiPi_OLED
         SH1106_I2C_128x64 = 6
     };
 
-    public class Wrapper
+    public class Wrapper : IDisposable
     {
+        bool closed = false;
 
         public Wrapper(OLED_Types oledType)
         {
             NativeWrapper.Wrapper_Init((int)oledType);
+        }
+
+        public void Close()
+        {
+            if (!closed)
+            {
+                NativeWrapper.Wrapper_Close();
+            }
         }
 
         public void Display()
@@ -139,6 +172,41 @@ namespace ArduiPi_OLED
         public void ClearDisplay()
         {
             NativeWrapper.Wrapper_ClearDisplay();
+        }
+
+        public void DrawPixel(short x, short y, ushort color)
+        {
+            NativeWrapper.Wrapper_DrawPixel(x, y, color);
+        }
+
+        public void StartScrollLeft(byte start, byte stop)
+        {
+            NativeWrapper.Wrapper_StartScrollLeft(start, stop);
+        }
+
+        public void StartScrollRight(byte start, byte stop)
+        {
+            NativeWrapper.Wrapper_StartScrollRight(start, stop);
+        }
+
+        public void StartScrollDiagLeft(byte start, byte stop)
+        {
+            NativeWrapper.Wrapper_StartScrollDiagLeft(start, stop);
+        }
+
+        public void StartScrollDiagRight(byte start, byte stop)
+        {
+            NativeWrapper.Wrapper_StartScrollDiagRight(start, stop);
+        }
+
+        public void SetHorizontalScrollProperties(bool direction, byte startRow, byte endRow, byte startColumn, byte endColumn, byte scrollSpeed)
+        {
+            NativeWrapper.Wrapper_SetHorizontalScrollProperties(direction, startRow, endRow, startColumn, endColumn, scrollSpeed);
+        }
+
+        public void StopScroll()
+        {
+            NativeWrapper.Wrapper_StopScroll();
         }
 
         public void Print(string msg)
@@ -221,7 +289,7 @@ namespace ArduiPi_OLED
             NativeWrapper.Wrapper_Write(c);
         }
 
-        public void Drawchar(short x, short y, byte c, ushort color, ushort bg, byte size)
+        public void DrawChar(short x, short y, byte c, ushort color, ushort bg, byte size)
         {
             NativeWrapper.Wrapper_Drawchar(x, y, c, color, bg, size);
         }
@@ -256,6 +324,10 @@ namespace ArduiPi_OLED
             return NativeWrapper.Wrapper_DisplayHeight();
         }
 
+        public void Dispose()
+        {
+            Close();
+        }
     };
 
 }

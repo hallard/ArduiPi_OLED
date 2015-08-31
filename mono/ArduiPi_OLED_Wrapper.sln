@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArduiPi_OLED_Wrapper", "Ard
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArduiPi_OLED_Wrapper.Test", "ArduiPi_OLED_Wrapper.Test\ArduiPi_OLED_Wrapper.Test.csproj", "{1CAD0518-406D-4629-83E5-97FF1F879F6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BananaPiOLEDMonitor", "ArduiPi_OLED_Monitor\BananaPiOLEDMonitor.csproj", "{38C84905-3080-485E-B85E-D843E38E0493}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1CAD0518-406D-4629-83E5-97FF1F879F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CAD0518-406D-4629-83E5-97FF1F879F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CAD0518-406D-4629-83E5-97FF1F879F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C84905-3080-485E-B85E-D843E38E0493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C84905-3080-485E-B85E-D843E38E0493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C84905-3080-485E-B85E-D843E38E0493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C84905-3080-485E-B85E-D843E38E0493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

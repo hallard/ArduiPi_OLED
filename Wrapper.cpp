@@ -72,6 +72,11 @@ extern "C" void Wrapper_Init(int oledType)
 	extDisplay->display();   		// display it (clear display)	
 }
 
+extern "C" void Wrapper_Close()
+{
+	extDisplay->close();
+}
+
 extern "C" void Wrapper_Display()
 {
 	extDisplay->display();
@@ -80,6 +85,41 @@ extern "C" void Wrapper_Display()
 extern "C" void Wrapper_ClearDisplay()
 {
 	extDisplay->clearDisplay();
+}
+
+extern "C" void Wrapper_DrawPixel(int16_t x, int16_t y, uint16_t color)
+{
+	extDisplay->drawPixel(x, y, color);
+}
+
+extern "C" void Wrapper_StartScrollLeft(uint8_t start, uint8_t stop)
+{
+	extDisplay->startscrollleft(start, stop);
+}
+
+extern "C" void Wrapper_StartScrollRight(uint8_t start, uint8_t stop)
+{
+	extDisplay->startscrollright(start, stop);
+}
+
+extern "C" void Wrapper_StartScrollDiagLeft(uint8_t start, uint8_t stop)
+{
+	extDisplay->startscrolldiagleft(start, stop);
+}
+
+extern "C" void Wrapper_StartScrollDiagRight(uint8_t start, uint8_t stop)
+{
+	extDisplay->startscrolldiagright(start, stop);
+}
+
+extern "C" void Wrapper_SetHorizontalScrollProperties(bool direction, uint8_t startRow, uint8_t endRow, uint8_t startColumn, uint8_t endColumn, uint8_t scrollSpeed)
+{
+	extDisplay->setHorizontalScrollProperties(direction, startRow, endRow, startColumn, endColumn, scrollSpeed);
+}
+
+extern "C" void Wrapper_StopScroll()
+{
+	extDisplay->stopscroll();
 }
 
 extern "C" void Wrapper_Print(const char * string)
