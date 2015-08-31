@@ -12,7 +12,7 @@ cd $BASEDIR/..
 make
 
 echo
-echo "---> Build managed library"
+echo "---> Build managed library and test suite"
 
 cd $BASEDIR
 echo "from `pwd`"

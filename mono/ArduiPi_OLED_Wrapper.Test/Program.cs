@@ -24,10 +24,9 @@
 #endregion
 
 using ArduiPi_OLED;
+using Mono.Unix;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace ArduiPi_OLED_Wrapper.Test
@@ -36,8 +35,7 @@ namespace ArduiPi_OLED_Wrapper.Test
     {
         static void Main(string[] args)
         {
-
-            var oledType = ChooseOLEDType();
+            var oledType = Util.ChooseOLEDType();
 
             Console.WriteLine($"Running test with selected display [{oledType}]");
             Console.WriteLine("Hit CTRL+C to stop");
@@ -47,7 +45,9 @@ namespace ArduiPi_OLED_Wrapper.Test
             wr.SetTextColor(1);
             wr.SetTextSize(2);
 
-            while (true)
+            UnixSignal sigint = new UnixSignal(Mono.Unix.Native.Signum.SIGINT);
+
+            while (!sigint.IsSet)
             {
                 wr.ClearDisplay();
                 wr.SetCursor(0, 0);
@@ -59,53 +59,8 @@ namespace ArduiPi_OLED_Wrapper.Test
                 Thread.Sleep(1000);
             }
         }
-
-        static OLED_Types ChooseOLEDType()
-        {
-            var types = Enum.GetValues(typeof(OLED_Types)).ToList<OLED_Types>();
-            OLED_Types? type = null;
-
-            var sbPrompt = new StringBuilder();
-            sbPrompt.AppendLine("Available display devices drivers:");
-            foreach (var x in types)
-            {
-                sbPrompt.AppendLine($"\t{(int)x}\t{x}");
-            }
-            sbPrompt.Append("Choose display type :");
-
-            var charToChoice = types.ToDictionary(k => ((int)k).ToString()[0], v => v);
-
-            while (!type.HasValue)
-            {
-                Console.Write(sbPrompt.ToString());
-
-                var k = Console.ReadKey();
-
-                if (charToChoice.ContainsKey(k.KeyChar))
-                {
-                    type = charToChoice[k.KeyChar];
-
-                    break;
-                }
-                else
-                    Console.WriteLine($"Invalid choice [{k.KeyChar}]");
-            }
-
-            return type.Value;
-        }
+        
     }
 
-    public static class Extensions
-    {
-
-        public static List<T> ToList<T>(this Array ary)
-        {
-            var res = new List<T>();
-
-            foreach (var x in ary) res.Add((T)x);
-
-            return res;
-        }
-
-    }
+    
 }
