@@ -30,6 +30,9 @@ else
 	exit
 fi
 
+echo "Ensure libi2c-dev packages"
+apt-get install libi2c-dev
+
 echo $HW > $BASEDIR/hwplatform
 
 echo "run make to build"

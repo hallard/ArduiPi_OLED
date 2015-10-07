@@ -14,6 +14,10 @@ make
 cd $BASEDIR
 
 echo
+echo "---> Ensure nuget installed"
+apt-get install nuget
+
+echo
 echo "---> Restoring nuget packages"
 nuget restore
 
