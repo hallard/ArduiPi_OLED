@@ -34,13 +34,62 @@ namespace BananaPiOLEDMonitor
 {
     class Program
     {
+        static void PrintUsage()
+        {
+            Console.WriteLine("-o <oledtypenr>  Select oled display type (Example: 3)");
+            Console.WriteLine("-d <netdev>      Select network device to monitor (Example: eth0)");
+            Console.WriteLine("-q               Suppress console outputs");
+            Console.WriteLine("");
+            Console.WriteLine(@"Available oled types :
+    Adafruit_SPI_128x32 = 0,
+    Adafruit_SPI_128x64 = 1,
+    Adafruit_I2C_128x32 = 2,
+    Adafruit_I2C_128x64 = 3,
+    Seeed_I2C_128x64 = 4,
+    Seeed_I2C_96x96 = 5,
+    SH1106_I2C_128x64 = 6");
+        }
+
         static void Main(string[] args)
         {
-            var oledType = Util.ChooseOLEDType();
-            var netDev = Util.ChooseNetDev();
+            bool quietMode = false;
+            if (args.Any(t => t == "-q")) quietMode = true;
 
-            Console.WriteLine($"Running test with selected display [{oledType}]");
-            Console.WriteLine("Hit CTRL+C to stop");
+            if (!quietMode) Console.WriteLine("To use command line (-h argument help)");
+
+            if (args.Any(t => t == "-h")) { PrintUsage(); return; }
+
+            var oledType = ArduiPi_OLED.OLED_Types.Adafruit_I2C_128x32;
+            string netDev = null;
+            bool oledTypeArgumentGiven = false;
+            bool netDevArgumentGiven = false;
+
+            for (int i = 0; i < args.Length; ++i)
+            {
+                if (args[i] == "-o" && i + 1 < args.Length && args[i + 1].Length == 1 && "0123456".IndexOf(args[i + 1]) != -1)
+                {
+                    oledType = (ArduiPi_OLED.OLED_Types)int.Parse(args[i + 1]);
+                    oledTypeArgumentGiven = true;
+                }
+
+                if (args[i] == "-d" && i + 1 < args.Length)
+                {
+                    netDev = args[i + 1];
+                    netDevArgumentGiven = true;
+                }
+            }
+
+            if (!oledTypeArgumentGiven || !netDevArgumentGiven)
+            {
+                oledType = Util.ChooseOLEDType();
+                netDev = Util.ChooseNetDev();
+            }
+
+            if (!quietMode)
+            {
+                Console.WriteLine($"Running test with selected display [{oledType}]");
+                Console.WriteLine("Hit CTRL+C to stop");
+            }
 
             // init oled display
             var wrapper = new ArduiPi_OLED.Wrapper(oledType);
@@ -55,7 +104,7 @@ namespace BananaPiOLEDMonitor
             var longTimespan = TimeSpan.FromMinutes(15);
             //---
 
-            Console.WriteLine($"display w:{w} x h:{h}");
+            if (!quietMode) Console.WriteLine($"display w:{w} x h:{h}");
 
             // -20 to skip 16 of first char + 4 margin
             var graphW = (short)(w - 20);
@@ -101,7 +150,7 @@ namespace BananaPiOLEDMonitor
                         var loadF = (double)diff.Usage / diff.Total;
                         var load = (int)(loadF * 100);
 
-                        Console.Write($"cpu % = {load}");
+                        if (!quietMode) Console.Write($"cpu % = {load}");
 
                         plotCpu.Add(new MonitorData(DateTime.Now, loadF));
 
@@ -119,7 +168,7 @@ namespace BananaPiOLEDMonitor
                         var diff = nfoCur - netPrev;
 
                         var rate = Math.Max(diff.Received, diff.Transmitted);
-                        Console.WriteLine($" ; net rate = {rate}");
+                        if (!quietMode) Console.WriteLine($" ; net rate = {rate}");
 
                         plotNet.Add(new MonitorData(DateTime.Now, rate));
 
@@ -146,7 +195,7 @@ namespace BananaPiOLEDMonitor
             if (ds.SizeMax != graphW) throw new Exception($"graph width must match dataset points max {graphW} != {ds.SizeMax}");
 
             // baseline track
-            
+
             for (int i = graphX0; i < graphX0 + graphW; i += 1)
             {
                 wrapper.DrawPixel((short)i, (short)(graphY0), 1);

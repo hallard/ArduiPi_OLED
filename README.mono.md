@@ -31,6 +31,16 @@ sh ./mono/run_monitor.sh
 	- net tx+rx (each seconds)
 	- net tx+rx (last 15 min)
 
+#### Command line mode help
+```
+sh ./mono/run_monitor.sh -h
+```
+
+Example:
+```
+sh ./mono/run_monitor.sh -o 3 -d eth0 -q
+```
+
 #### Shots
 - shows cpu each seconds and correspondent 15 min average sampling
 	
