@@ -1,3 +1,4 @@
+#!/bin/bash
 # autogen.sh
 #----------------------------------------------------------
 # Copyright(C) 2015 Lorenzo Delana, License under MIT
