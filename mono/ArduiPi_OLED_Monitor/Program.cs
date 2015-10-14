@@ -38,6 +38,7 @@ namespace BananaPiOLEDMonitor
         {
             Console.WriteLine("-o <oledtypenr>  Select oled display type (Example: 3)");
             Console.WriteLine("-d <netdev>      Select network device to monitor (Example: eth0)");
+            Console.WriteLine("-t <minutes>     Sets the long time running graph width in minutes (Example(24hr): 1440)");
             Console.WriteLine("-q               Suppress console outputs");
             Console.WriteLine("");
             Console.WriteLine(@"Available oled types :
@@ -63,6 +64,7 @@ namespace BananaPiOLEDMonitor
             string netDev = null;
             bool oledTypeArgumentGiven = false;
             bool netDevArgumentGiven = false;
+            int longTimeGraphMinutes = 15;
 
             for (int i = 0; i < args.Length; ++i)
             {
@@ -76,6 +78,11 @@ namespace BananaPiOLEDMonitor
                 {
                     netDev = args[i + 1];
                     netDevArgumentGiven = true;
+                }
+
+                if (args[i] == "-t" && i + 1 < args.Length)
+                {
+                    longTimeGraphMinutes = int.Parse(args[i + 1]);
                 }
             }
 
@@ -100,8 +107,8 @@ namespace BananaPiOLEDMonitor
             var h = wrapper.DisplayHeight();
 
             //--- here can change to 24h for example
-            var longTxt = "15m";
-            var longTimespan = TimeSpan.FromMinutes(15);
+            var longTxt = MinutesHumanReadableLabel(longTimeGraphMinutes);
+            var longTimespan = TimeSpan.FromMinutes(longTimeGraphMinutes);
             //---
 
             if (!quietMode) Console.WriteLine($"display w:{w} x h:{h}");
@@ -185,6 +192,20 @@ namespace BananaPiOLEDMonitor
 
             }
 
+        }
+
+        static string MinutesHumanReadableLabel(int minutes)
+        {
+            if (minutes < 100)
+                return minutes.ToString() + "m";
+            else
+            {
+                var hr = minutes / 60;
+                if (hr < 99)
+                    return hr.ToString() + "h";
+                else
+                    return (hr / 24).ToString() + "d";
+            }
         }
 
         static void DisplayMonitorPlot(ArduiPi_OLED.Wrapper wrapper, IMonitorDataSet ds,
