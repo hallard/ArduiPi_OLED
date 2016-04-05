@@ -26,6 +26,9 @@ All text above, and the splash screen must be included in any redistribution
  
 *********************************************************************/
 
+#ifndef _ArduiPi_OLED_H
+#define _ArduiPi_OLED_H
+
 #include "./Adafruit_GFX.h"
 
 #define BLACK 0
@@ -210,3 +213,4 @@ class ArduiPi_OLED : public Adafruit_GFX
   //volatile uint8_t *dcport;
   //uint8_t dcpinmask;
 };
+#endif
