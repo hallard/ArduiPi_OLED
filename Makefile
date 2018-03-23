@@ -41,26 +41,30 @@ LIB=libArduiPi_OLED
 # shared library name
 LIBNAME=$(LIB).so.1.0
 
+CXX=g++
+CC=gcc
+CFLAGS=$(CCFLAGS)
+
 # make all
 # reinstall the library after each recompilation
 all: ArduiPi_OLED install
 
 # Make the library
 ArduiPi_OLED: ArduiPi_OLED.o Adafruit_GFX.o bcm2835.o Wrapper.o
-	g++ -shared -Wl,-soname,$@.so.1 ${CCFLAGS}  -o ${LIBNAME} $^
+	$(CXX) -shared -Wl,-soname,$@.so.1 $(CFLAGS)  -o ${LIBNAME} $^
 
 # Library parts (use -fno-rtti flag to avoid link problem)
 ArduiPi_OLED.o: ArduiPi_OLED.cpp
-	g++ -Wall -fPIC -fno-rtti ${CCFLAGS} -c $^
+	$(CXX) -Wall -fPIC -fno-rtti $(CFLAGS) -c $^
 
 Adafruit_GFX.o: Adafruit_GFX.cpp
-	g++ -Wall -fPIC -fno-rtti ${CCFLAGS} -c $^
+	$(CXX) -Wall -fPIC -fno-rtti $(CFLAGS) -c $^
 
 bcm2835.o: bcm2835.c
-	gcc -Wall -fPIC ${CCFLAGS} -c $^
+	$(CC) -Wall -fPIC $(CFLAGS) -c $^
 
 Wrapper.o: Wrapper.cpp
-	gcc -Wall -fPIC ${CCFLAGS} -c $^
+	$(CC) -Wall -fPIC $(CFLAGS) -c $^
 
 # Install the library to LIBPATH
 install: 
