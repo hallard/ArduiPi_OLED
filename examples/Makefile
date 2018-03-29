@@ -32,10 +32,13 @@ prefix := /usr/local
 PROGRAMS = oled_demo teleinfo-oled
 SOURCES = ${PROGRAMS:=.cpp}
 
+CXX=g++
+CFLAGS=${CCFLAGS}
+
 all: ${PROGRAMS}
 
 ${PROGRAMS}: ${SOURCES}
-	g++ ${CCFLAGS} -Wall  -lArduiPi_OLED $@.cpp -o $@
+	$(CXX) $(CFLAGS) -Wall  -lArduiPi_OLED $@.cpp -o $@
 
 clean:
 	rm -rf $(PROGRAMS)
