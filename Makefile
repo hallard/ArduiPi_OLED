@@ -51,7 +51,7 @@ all: ArduiPi_OLED install
 
 # Make the library
 ArduiPi_OLED: ArduiPi_OLED.o Adafruit_GFX.o bcm2835.o Wrapper.o
-	$(CXX) -shared -Wl,-soname,$@.so.1 $(CFLAGS)  -o ${LIBNAME} $^
+	$(CXX) -shared -Wl,-soname,$(LIB).so.1 $(CFLAGS) $(LDFLAGS)  -o ${LIBNAME} $^ -li2c
 
 # Library parts (use -fno-rtti flag to avoid link problem)
 ArduiPi_OLED.o: ArduiPi_OLED.cpp
