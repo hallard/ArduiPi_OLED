@@ -21,6 +21,8 @@ HWPLAT:=$(shell cat $(ROOT_DIR)/../hwplatform)
 # sets CCFLAGS hw platform dependant
 ifeq ($(HWPLAT),BananaPI)
         CCFLAGS=-Wall -Ofast -mfpu=vfpv4 -mfloat-abi=hard -march=armv7 -mtune=cortex-a7 -DBANANAPI
+else ifeq ($(HWPLAT),Quartz64B)
+	CCFLAGS=-Wall -Ofast -DQUARTZ64B
 else # fallback to raspberry
         # The recommended compiler flags for the Raspberry Pi
         CCFLAGS=-Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s

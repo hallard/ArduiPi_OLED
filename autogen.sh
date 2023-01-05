@@ -15,6 +15,7 @@ BASEDIR=`realpath $BD`
 echo "Specify your platform:"
 echo "  1. RaspberryPI"
 echo "  2. BananaPI"
+echo "  3. Quartz64 Model B"
 
 read -n 1 c
 echo
@@ -25,6 +26,9 @@ if [ "$c" == "1" ]; then
 elif [ "$c" == "2" ]; then
 	echo "Setting for BananaPI"
 	HW="BananaPI"
+elif [ "$c" == "3" ]; then
+	echo "Setting for Quartz64 Model B"
+	HW="Quartz64B"
 else
 	echo "Invalid argument given."
 	HW="RaspberryPI" # fallback to raspi

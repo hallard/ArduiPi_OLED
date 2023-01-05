@@ -158,12 +158,16 @@ uint32_t bcm2835_peri_read(volatile uint32_t* paddr)
 	}
 	else
 	{
+#ifdef QUARTZ64B
+		return 0;
+#else
 		// Make sure we dont return the _last_ read which might get lost
 		// if subsequent code changes to a different peripheral
 		uint32_t ret = *paddr;
 		uint32_t dummy = *paddr;
 		dummy=dummy; // avoid compiler warning
 		return ret;
+#endif
 	}
 }
 
@@ -177,7 +181,11 @@ uint32_t bcm2835_peri_read_nb(volatile uint32_t* paddr)
 	}
 	else
 	{
+#ifdef QUARTZ64B
+		return 0;
+#else
 		return *paddr;
+#endif
 	}
 }
 
@@ -190,10 +198,12 @@ void bcm2835_peri_write(volatile uint32_t* paddr, uint32_t value)
     }
     else
     {
+#ifndef QUARTZ64B
 	// Make sure we don't rely on the first write, which may get
 	// lost if the previous access was to a different peripheral.
 	*paddr = value;
 	*paddr = value;
+#endif
     }
 }
 
@@ -207,7 +217,9 @@ void bcm2835_peri_write_nb(volatile uint32_t* paddr, uint32_t value)
     }
     else
     {
+#ifndef QUARTZ64B
 	*paddr = value;
+#endif
     }
 }
 
@@ -818,6 +830,8 @@ int bcm2835_i2c_begin(void)
 
 #if BANANAPI
 	if ((fd = open ("/dev/i2c-2", O_RDWR)) < 0)
+#elif QUARTZ64B
+	if ((fd = open("/dev/i2c-3", O_RDWR)) < 0)
 #else
 	if ((fd = open (bcm2835_get_pi_version() == 1 ? "/dev/i2c-0":"/dev/i2c-1" , O_RDWR)) < 0)
 #endif
@@ -950,6 +964,7 @@ int bcm2835_init(void)
 {
 	struct timeval tv ;
 	
+#ifndef QUARTZ64B
     if (debug) 
     {
 	bcm2835_pads = (uint32_t*)BCM2835_GPIO_PADS;
@@ -1009,6 +1024,9 @@ exit:
 
     if (!ok)
 	bcm2835_close();
+#else
+	int ok = 1;
+#endif
 	
   gettimeofday (&tv, NULL) ;
 	epoch = (tv.tv_sec * 1000000 + tv.tv_usec) / 1000 ;
@@ -1019,6 +1037,7 @@ exit:
 // Close this library and deallocate everything
 int bcm2835_close(void)
 {
+#ifndef QUARTZ64B
     if (debug) return 1; // Success
     unmapmem((void**) &bcm2835_gpio, BCM2835_BLOCK_SIZE);
     unmapmem((void**) &bcm2835_pwm,  BCM2835_BLOCK_SIZE);
@@ -1028,4 +1047,5 @@ int bcm2835_close(void)
     unmapmem((void**) &bcm2835_bsc1, BCM2835_BLOCK_SIZE);
     unmapmem((void**) &bcm2835_st,   BCM2835_BLOCK_SIZE);
     return 1; // Success
+#endif
 }    
